@@ -56,7 +56,8 @@ services:
       SERVICE_PRECONDITION: "namenode:9870 datanode1:9864 resourcemanager:8088"
     env_file:
       - ./hadoop.env
-    volumes: ./volumes/nodemanager1:/tmp
+    volumes:
+      - ./volumes/nodemanager1:/tmp
 
   nodemanager2:
     image: ftesei96/spark-yarn-nodemanager:1.0.0
@@ -65,7 +66,8 @@ services:
       SERVICE_PRECONDITION: "namenode:9870 datanode2:9864 resourcemanager:8088"
     env_file:
       - ./hadoop.env
-    volumes: ./volumes/nodemanager2:/tmp
+    volumes:
+      - ./volumes/nodemanager2:/tmp
   
   historyserver:
     image: ftesei96/spark-yarn-historyserver:1.0.0
@@ -87,7 +89,7 @@ services:
     env_file:
       - ./hadoop.env
     environment:
-      HIVE_CORE_CONF_javax_jdo_option_ConnectionURL: "jdbc:postgresql://hive-metastore/metastore"
+      HIVE_CORE_CONF_javax_jdo_option_ConnectionURL: "jdbc:postgresql://hive-metastore-postgresql/metastore"
       SERVICE_PRECONDITION: "hive-metastore:9083"
     ports:
       - "10000:10000"
@@ -106,6 +108,8 @@ services:
   hive-metastore-postgresql:
     container_name: hive-metastore-postgresql
     image: ftesei96/spark-hive-postgresql:1.0.0
+    env_file: 
+      - ./hadoop.env
     ports: 
       - 5432:5432
 
