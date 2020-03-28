@@ -1,0 +1,111 @@
+version: "3"
+
+services:
+  namenode:
+    image: ftesei96/spark-yarn-namenode:1.0.0
+    container_name: namenode
+    ports: 
+      - 9000:9000
+      - 9870:9870
+    volumes:
+      - ./volumes/namenode:/hadoop/dfs/name
+      - ./volumes/spark:/opt/spark
+    environment:
+      - CLUSTER_NAME=TEST
+    env_file:
+      - ./hadoop.env
+
+  datanode1:
+    image: ftesei96/spark-yarn-datanode:1.0.0
+    container_name: datanode1
+    volumes:
+      - ./volumes/datanode1:/hadoop/dfs/data
+    environment:
+      SERVICE_PRECONDITION: "namenode:9870"
+    env_file:
+      - ./hadoop.env
+
+  datanode2:
+    image: ftesei96/spark-yarn-datanode:1.0.0
+    container_name: datanode2
+    volumes:
+      - ./volumes/datanode2:/hadoop/dfs/data
+    environment:
+      SERVICE_PRECONDITION: "namenode:9870"
+    env_file:
+      - ./hadoop.env
+  
+  resourcemanager:
+    image: ftesei96/spark-yarn-resourcemanager:1.0.0
+    container_name: resourcemanager
+    ports: 
+      - 8088:8088
+      - 8998:8998
+    environment:
+      SERVICE_PRECONDITION: "namenode:9870 datanode1:9864 datanode2:9864"
+      ENABLE_LIVY_SERVER: "true"
+    volumes: 
+      - ./volumes/spark:/opt/spark
+    env_file:
+      - ./hadoop.env
+
+  nodemanager1:
+    image: ftesei96/spark-yarn-nodemanager:1.0.0
+    container_name: nodemanager1
+    environment:
+      SERVICE_PRECONDITION: "namenode:9870 datanode1:9864 resourcemanager:8088"
+    env_file:
+      - ./hadoop.env
+    volumes: ./volumes/nodemanager1:/tmp
+
+  nodemanager2:
+    image: ftesei96/spark-yarn-nodemanager:1.0.0
+    container_name: nodemanager2
+    environment:
+      SERVICE_PRECONDITION: "namenode:9870 datanode2:9864 resourcemanager:8088"
+    env_file:
+      - ./hadoop.env
+    volumes: ./volumes/nodemanager2:/tmp
+  
+  historyserver:
+    image: ftesei96/spark-yarn-historyserver:1.0.0
+    container_name: historyserver
+    environment:
+      SERVICE_PRECONDITION: "namenode:9870 datanode1:9864 datanode2:9864 resourcemanager:8088"
+    volumes:
+      - ./volumes/historyserver:/hadoop/yarn/timeline
+    env_file:
+      - ./hadoop.env
+
+
+
+
+      
+  hive-server:
+    image: ftesei96/spark-hive-server:1.0.0
+    container_name: hive-server
+    env_file:
+      - ./hadoop.env
+    environment:
+      HIVE_CORE_CONF_javax_jdo_option_ConnectionURL: "jdbc:postgresql://hive-metastore/metastore"
+      SERVICE_PRECONDITION: "hive-metastore:9083"
+    ports:
+      - "10000:10000"
+
+  hive-metastore:
+    image: ftesei96/spark-hive-metastore:1.0.0
+    container_name: hive-metastore
+    env_file:
+      - ./hadoop.env
+    command: /opt/hive/bin/hive --service metastore
+    environment:
+      SERVICE_PRECONDITION: "namenode:9870"
+    ports:
+      - "9083:9083"
+
+  hive-metastore-postgresql:
+    container_name: hive-metastore-postgresql
+    image: ftesei96/spark-hive-postgresql:1.0.0
+    ports: 
+      - 5432:5432
+
