@@ -79,6 +79,20 @@ services:
     env_file:
       - ./hadoop.env
 
+  zeppelin:
+    image: ftesei96/spark-yarn-zeppelin:1.0.0
+    container_name: zeppelin
+    environment:
+      SERVICE_PRECONDITION: "namenode:9870 resourcemanager:8088"
+    ports: 
+      - 8080:8080
+    volumes:
+      - ./volumes/spark:/opt/spark
+      - ./volumes/zeppelin/notebooks:/notebook
+      - ./volumes/zeppelin/logs:/logs
+    env_file:
+      - ./hadoop.env
+
 
 
       
