@@ -10,6 +10,3 @@ RUN chmod a+x /nodemanager-entrypoint.sh
 EXPOSE 8042
 
 CMD ["/nodemanager-entrypoint.sh"]
-#docker build -t registryrfsc.azurecr.io/spark-yarn-nodemanager-ofertador .
-
-#docker run -d --net=host --env-file /opt/yarn-cluster/hadoop.env   registryrfsc.azurecr.io/spark-yarn-nodemanager-ofertador

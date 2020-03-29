@@ -40,20 +40,6 @@ EXPOSE 8088
 
 CMD ["/resource-entrypoint.sh"]
 
-#RUN apt-get install wget -y && wget https://www-eu.apache.org/dist/spark/spark-2.4.3/spark-2.4.3-bin-hadoop2.7.tgz 
-#RUN tar -xvf spark-2.4.3-bin-hadoop2.7.tgz && mv spark-2.4.3-bin-hadoop2.7 /opt/spark
-##RUN export LD_LIBRARY_PATH=/opt/hadoop-3.1.1/lib/native$LD_LIBRARY_PATH 
-#RUN export HADOOP_CONF_DIR=/opt/hadoop-3.1.1/etc/hadoop
-#RUN export SPARK_HOME=/opt/spark/
-#RUN cp /opt/spark/conf/spark-defaults.conf.template /opt/spark/conf/spark-defaults.conf
-
-#docker build -t registryrfsc.azurecr.io/spark-yarn-resourcemanager-ofertador
-
-#docker run -d --net=host --env-file /opt/yarn-cluster/hadoop.env   registryrfsc.azurecr.io/spark-yarn-resourcemanager-ofertador
-
-
-
-## para history server de spark 
+## For spark history server
 ## 1. hdfs dfs -mkdir /spark-logs
-
 # 2. $SPARK_HOME/sbin/start-history-server.sh

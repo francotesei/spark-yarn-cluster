@@ -14,7 +14,3 @@ RUN chmod a+x /history-entrypoint.sh
 EXPOSE 8188
 
 CMD ["/history-entrypoint.sh"]
-
-#registryrfsc.azurecr.io/spark-yarn-historyserver-ofertador
-
-#docker run -d --net=host --env-file /opt/yarn-cluster/hadoop.env -v /opt/yarn-cluster/historyserver:/hadoop/yarn/timeline registryrfsc.azurecr.io/spark-yarn-historyserver-ofertador

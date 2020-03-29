@@ -14,6 +14,3 @@ RUN chmod a+x /datanode-entrypoint.sh
 EXPOSE 9864
 
 CMD ["/datanode-entrypoint.sh"]
-##docker build -t registryrfsc.azurecr.io/spark-yarn-datanode-ofertador .
-
-#docker run -d --net=host --env-file /opt/yarn-cluster/hadoop.env -v /opt/yarn-cluster/datanode:/hadoop/dfs/data registryrfsc.azurecr.io/spark-yarn-datanode-ofertador
