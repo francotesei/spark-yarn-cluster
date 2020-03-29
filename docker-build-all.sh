@@ -40,4 +40,7 @@ echo "Docker build image spark-hive-postgresql"
 docker build -t ftesei96/spark-hive-postgresql:1.0.0 ./hive/spark-hive-postgresql/
 echo "Done spark-hive-postgresql"
 echo "============================================================="
-
+echo "Docker build image spark-yarn-zeppelin"
+docker build -t ftesei96/spark-yarn-zeppelin:1.0.0 ./hive/spark-yarn-zeppelin/
+echo "Done spark-yarn-zeppelin"
+echo "============================================================="
