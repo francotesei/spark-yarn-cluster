@@ -40,7 +40,7 @@ EXPOSE 10000
 EXPOSE 10002
 
 ENTRYPOINT ["base-entrypoint.sh"]
-CMD base-run.sh
+CMD ["base-run.sh"]
 
 
 ##NOTE##

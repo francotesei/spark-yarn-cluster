@@ -81,7 +81,6 @@ services:
 
 
 
-
       
   hive-server:
     image: ftesei96/spark-hive-server:1.0.0
